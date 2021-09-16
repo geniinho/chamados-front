@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { Credenciais } from 'src/app/models/credenciais';
 
 @Component({
@@ -10,24 +12,26 @@ import { Credenciais } from 'src/app/models/credenciais';
 export class LoginComponent implements OnInit {
 
   creds: Credenciais = {
-    email :'',
-    senha : ''
+    email: '',
+    senha: ''
   }
 
-  email = new FormControl(null, Validators.email)
-  senha = new FormControl(null, Validators.minLength(3))
+  email = new FormControl(null, Validators.email);
+  senha = new FormControl(null, Validators.minLength(3));
 
-  constructor() { }
+  constructor(
+    private toast: ToastrService,
+    private router: Router) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void { }
+
+  logar() {
+      this.toast.error('Usuário e/ou senha inválidos');
+      this.creds.senha = ''
   }
 
-  validaCampos(): boolean{
-    if(this.email.valid && this.senha.valid){
-      return true
-    }else{
-      return false
-    }
+  validaCampos(): boolean {
+    return this.email.valid && this.senha.valid
   }
 
 }
